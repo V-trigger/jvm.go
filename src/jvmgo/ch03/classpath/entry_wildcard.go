@@ -16,10 +16,11 @@ func newWildcardEntry(path string) CompositeEntry {
         if err != nil {
             return err
         }
+        //不处理目录
         if info.IsDir() && path != baseDir {
             return filepath.SkipDir
         }
-
+        //创建ZipEntry 并放到
         if strings.HasSuffix(path, ".jar") || strings.HasSuffix(path, ".JAR") {
             jarEntry := newZipEntry(path)
             compositeEntry = append(compositeEntry, jarEntry)

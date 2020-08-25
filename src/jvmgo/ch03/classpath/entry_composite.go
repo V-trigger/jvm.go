@@ -4,7 +4,7 @@ import(
     "strings"
 )
 
-//多路径classpath
+//解析多路径的jre
 type CompositeEntry []Entry
 
 func newCompositeEntry(pathList string) CompositeEntry {

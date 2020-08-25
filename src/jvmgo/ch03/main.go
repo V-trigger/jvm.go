@@ -2,7 +2,7 @@ package main
 import (
     "fmt"
     "strings"
-    "jvmgo/ch02/classpath"
+    "jvmgo/ch03/classpath"
 )
 
 func main()  {

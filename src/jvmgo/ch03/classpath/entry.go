@@ -12,7 +12,7 @@ type Entry interface{
 }
 
 func newEntry(path string) Entry {
-    //路径
+    //多路径
     if strings.Contains(path, pathListSeparator) {
         return newCompositeEntry(path)
     }
