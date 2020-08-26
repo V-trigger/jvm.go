@@ -71,7 +71,7 @@ func Parse(classData []byte) (cf *ClassFile, err error) {
     return
 }
 
-func (self *ClassFile) reader(reader *ClassReader) {
+func (self *ClassFile) read(reader *ClassReader) {
 
     //读取并验证验证魔数
     self.readAndCheckMagic(reader)

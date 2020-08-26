@@ -3,7 +3,7 @@ package classfile
 //保存常量信息
 type ConstantInfo interface {
 	// 读取常量信息，需要由具体的常量结构体实现。
-	// readConstantInfo（）函数先读出tag值，然后调用newConstantInfo（）函数创建具体的常量，
+	// readConstantInfo()函数先读出tag值，然后调用newConstantInfo（）函数创建具体的常量，
 	// 最后调用常量的readInfo（）方法读取常量信息
 	readInfo(reader *ClassReader)
 }
@@ -49,8 +49,6 @@ func newConstantInfo(tag uint8, cp ConstantPool) ConstantInfo {
 }
 //常量池
 type ConstantPool []ConstantInfo
-
-
 
 // 读取常量池
 // 常量池实际上也是一个表，但是有三点需要特别注意。
