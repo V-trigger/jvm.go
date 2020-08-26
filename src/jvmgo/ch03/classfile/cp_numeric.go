@@ -3,7 +3,8 @@ import "math"
 
 //CONSTANT_Integer_info使用4字节存储整数常量，其结构定义如下：
 // CONSTANT_Integer_info {
-// 	u1 tag; u4 bytes;
+// 	u1 tag;
+//  u4 bytes;
 // }
 //
 //CONSTANT_Integer_info正好可以容纳一个Java的int型常量

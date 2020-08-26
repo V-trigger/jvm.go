@@ -11,6 +11,7 @@ import "fmt"
 //         u2 major_version;
 //         //常量池计数器
 //         u2 constant_pool_count;  
+//         //表头给出的常量池大小比实际大1。假设表头给出的值是n，那么常 量池的实际大小是n–1
 //         cp_info constant_pool[constant_pool_count-1];
 //         u2 access_flags;
 //         u2 this_class;
@@ -27,7 +28,6 @@ import "fmt"
 //         u2 attributes_count;
 //         attribute_info attributes[attributes_count]; 
 //     }
-
 type ClassFile struct {
     //u4    magic    魔数，识别Class文件格式    4个字节
     //magic uint32
@@ -36,7 +36,7 @@ type ClassFile struct {
     minorVersion  uint16
     //u2    major_version    主版本号    2个字节
     majorVersion  uint16
-    //cp_info    constant_pool    常量池    n个字节
+    //cp_info    constant_pool    常量池   n个字节
     constantPool  ConstantPool
     //u2    access_flags    访问标志    2个字节
     accessFlags   uint16
@@ -78,7 +78,7 @@ func (self *ClassFile) read(reader *ClassReader) {
     //读取并验证验证版本号
     self.readAndCheckVersion(reader)
 
-    //读取常量池 TODO
+    //读取常量池
     self.constantPool = readConstantPool(reader)
 
     //读取访问标识
@@ -94,6 +94,7 @@ func (self *ClassFile) read(reader *ClassReader) {
     //接口索引表
     //接口索引表，表中存放的也是常量池索引，给出该类实现的所有接口的名字
     self.interfaces = reader.readUint16s()
+
     //字段表和方法表，分别存储字段和方法信息。
     //字段和方法的基本结构大致相同，差别仅在于属性表
     //下面是Java虚拟机规范给出的字段结构定义。
@@ -104,8 +105,12 @@ func (self *ClassFile) read(reader *ClassReader) {
     //     u2 attributes_count;
     //     attribute_info attributes[attributes_count]; 
     // }
+    // class文件字节码存放顺序是字段表、方法表依次存放
+    // 依次读取即可
     self.fields = readMembers(reader, self.constantPool)
     self.methods = readMembers(reader, self.constantPool)
+
+    //属性表
     self.attributes = readAttributes(reader, self.constantPool)
 }
 
@@ -129,7 +134,7 @@ func (self *ClassFile) readAndCheckMagic(reader *ClassReader) {
 // Oracle的实现是完全向后兼容的，比如Java SE 8支持版本号为 45.0~52.0的class文件。
 // 如果版本号不在支持的范围内，Java虚拟机 实现就抛出java.lang.UnsupportedClassVersionError异常。
 // 这里参考 Java 8，支持版本号为45.0~52.0的class文件。如果遇到其他版本号，
-// 暂时先调用panic（）方法终止程序执行
+// 暂时先调用panic()方法终止程序执行
 func (self *ClassFile) readAndCheckVersion(reader *ClassReader) {
     //第五第六个字节是次版本号
     self.minorVersion = reader.readUint16()
@@ -169,7 +174,7 @@ func (self *ClassFile) InterfaceNames() []string {
 }
 
 
-//获取属性方法
+//getter方法
 
 func (self *ClassFile) MinorVersion() uint16 {
     return self.minorVersion

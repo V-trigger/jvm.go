@@ -8,6 +8,7 @@ package classfile
 //和CONSTANT_String_info类似，name_index是常量池索引，指向CONSTANT_Utf8_info常量。
 type ConstantClassInfo struct {
 	cp ConstantPool
+	//名称索引,指向CONSTANT_Utf8_info常量
 	nameIndex uint16
 }
 

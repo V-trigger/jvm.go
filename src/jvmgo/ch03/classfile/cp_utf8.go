@@ -20,10 +20,13 @@ type ConstantUtf8Info struct {
 	str string
 }
 
-//读取出[]byte，然后调用decodeMUTF8（）函数 把它解码成Go字符串
+//读取出[]byte，然后调用decodeMUTF8()函数 把它解码成Go字符串
 func (self *ConstantUtf8Info) readInfo(reader *ClassReader) {
+	//读取长度
 	length := uint32(reader.readUint16())
+	//根据长度读取[]byte
 	bytes := reader.readBytes(length)
+	//将[]byte转换为utf8字符
 	self.str = decodeMUTF8(bytes)
 }
 
