@@ -2,7 +2,7 @@ package main
 
 import (
     "fmt"
-    "path/filepath"
+    // "path/filepath"
 )
 
 type Test interface {
@@ -20,13 +20,7 @@ func (self B) Tfunc(test string) {
 }
 
 func main() {
-    a := []Test{}
-    b := B{}
-    a = append(a,  b)
-
-    fmt.Println("On Unix:")
-    fmt.Println(filepath.Join("a", "b", "c"))
-    fmt.Println(filepath.Join("a", "b/c"))
-    fmt.Println(filepath.Join("a/b", "c"))
-    fmt.Println(filepath.Join("a/b", "/c"))
+    var a uint32 = 1010102333
+    b := int(a)
+    fmt.Printf("%T\t%T\n",a,b)
 }
