@@ -5,7 +5,7 @@ import "jvmgo/ch05/rtda"
 //各个指令都继承这个接口
 type Instruction interface {
 	//从字节码中提取操作数
-	FetchOperand(reader *BytecodeReader)
+	FetchOperands(reader *BytecodeReader)
 
 	//执行指令逻辑
 	Execute(frame *rtda.Frame)
