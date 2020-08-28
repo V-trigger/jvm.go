@@ -1,6 +1,6 @@
 package rtda
 
-//运行时数据
+//当前线程运行时数据
 type Thread struct {
 	pc    int
     stack   *Stack

@@ -43,6 +43,11 @@ func (self *BytecodeReader) ReadInt32() int32 {
 	return (byte1 << 24) | (byte2 << 16) | (byte3 << 8) | byte4
 }
 
+
+func (self *BytecodeReader) PC() int {
+	return self.pc
+}
+
 // 读取n个int32
 func (self *BytecodeReader) ReadInt32s(n int32) []int32 {
 	ints := make([]int32, n)

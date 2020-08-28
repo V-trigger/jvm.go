@@ -23,8 +23,6 @@ package classfile
 //
 //max_stack给出操作数栈的最大深度，max_locals给出局部变量表大小。
 //接着是字节码，存在u1表中。最后是异常处理表和属性表。
-//在第4章讨论运行时数据区，并且实现操作数栈和局部变量表时，max_stack和max_locals就会派上用场
-//在第5章讨论指令集和解释器时，会用到字节码。
 //在第10章讨论异常处理时，会使用异常处理表
 
 type CodeAttribute struct {
@@ -34,6 +32,19 @@ type CodeAttribute struct {
 	code    []byte
 	exceptionTable    []*ExceptionTableEntry
     attributes []AttributeInfo
+}
+
+func (self *CodeAttribute) MaxStack() uint {
+	return uint(self.maxStack)
+}
+func (self *CodeAttribute) MaxLocals() uint {
+	return uint(self.maxLocals)
+}
+func (self *CodeAttribute) Code() []byte {
+	return self.code
+}
+func (self *CodeAttribute) ExceptionTable() []*ExceptionTableEntry {
+	return self.exceptionTable
 }
 
 type ExceptionTableEntry struct {

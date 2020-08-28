@@ -14,6 +14,7 @@ func interpret(methodInfo *classfile.MemberInfo) {
 	maxStack := codeAttr.MaxStack()
 	bytecode := codeAttr.Code()
 
+	thread := rtda.NewThread()
 	frame := thread.NewFrame(maxLocals, maxStack)
 	thread.PushFrame(frame)
 	defer catchErr(frame)
