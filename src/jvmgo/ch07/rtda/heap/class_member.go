@@ -43,6 +43,14 @@ func (self *ClassMember) IsPrivate() bool {
 	return 0 != self.accessFlags & ACC_PRIVATE
 }
 
+func (self *ClassMember) IsAbstract() bool {
+	return 0 != self.accessFlags & ACC_ABSTRACT
+}
+
+func (self *ClassMember) IsNative() bool {
+	return 0 != self.accessFlags & ACC_NATIVE
+}
+
 //是否有权限访问
 func (self *ClassMember) isAccessibleTo(d *Class) bool {
 	//如果字段是public，则任何类都可以访问
@@ -52,12 +60,12 @@ func (self *ClassMember) isAccessibleTo(d *Class) bool {
 	c := self.class
 	//如果字段是protected,则只有子类和同一个包下的类可以访问
 	if self.IsProtected() {
-		return d == c || d.isSubClassOf(c) || c.getPackageName() == d.getPackageName()
+		return d == c || d.IsSubClassOf(c) || c.GetPackageName() == d.GetPackageName()
 	}
 	//如果public、protected、private都不是，那就只有默认权限了
 	//默认权限只有同包能访问
 	if !self.IsPrivate() {
-		return c.getPackageName() == d.getPackageName()
+		return c.GetPackageName() == d.GetPackageName()
 	}
 
 	return d == c

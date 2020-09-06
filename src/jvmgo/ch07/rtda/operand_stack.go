@@ -112,3 +112,7 @@ func (self *OperandStack) PopSlot() Slot {
 	slot := self.slots[self.size]
 	return slot
 }
+
+func (self *OperandStack) GetRefFromTop(n uint) *heap.Object {
+	return self.slots[self.size-1-n].ref
+}

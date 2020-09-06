@@ -42,6 +42,8 @@ type Class struct {
 	staticSlotCount     uint
 	//静态变量
 	staticVars          Slots
+
+	initStarted         bool
 }
 
 
@@ -109,15 +111,20 @@ func (self *Class) StaticVars() Slots {
 
 // java虚拟机规范5.4.4  是否可以访问
 func (self *Class) isAccessibleTo(other *Class) bool {
-	return self.IsPublic() || self.getPackageName() == other.getPackageName()
+	return self.IsPublic() || self.GetPackageName() == other.GetPackageName()
 }
 
 //获取包名
-func (self *Class) getPackageName() string {
+func (self *Class) GetPackageName() string {
 	if i := strings.LastIndex(self.name, "/"); i >= 0 {
 		return self.name[:i]
 	}
 	return ""
+}
+
+//查找初始化方法
+func (self *Class) GetClinitMethod() *Method {
+	return self.getStaticMethod("<clinit>", "()V")
 }
 
 //查找主方法
@@ -141,4 +148,21 @@ func (self *Class) getStaticMethod(name, descriptor string) *Method {
 //实例化对象
 func (self *Class) NewObject() *Object {
 	return newObject(self)
+}
+
+// getter/setter
+func (self *Class) SuperClass() *Class {
+	return self.superClass
+}
+
+func (self *Class) Name() string {
+	return self.name
+}
+
+func (self *Class) InitStarted() bool {
+	return self.initStarted
+}
+
+func (self *Class) StartInit() {
+	self.initStarted = true
 }

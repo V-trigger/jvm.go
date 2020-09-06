@@ -10,14 +10,16 @@ import(
 //ClassLoader依赖Classpath来搜索和读取class文件，cp字段保存Classpath指针
 //classMap字段记录已经加载的类数据，key是类的完全限定名
 type ClassLoader struct {
-	cp *classpath.Classpath
+	cp     *classpath.Classpath
+	verboseFlag    bool
     classMap    map[string]*Class   
 }
 
 //创建ClassLoader实例
-func NewClassLoader(cp *classpath.Classpath) *ClassLoader {
+func NewClassLoader(cp *classpath.Classpath, verboseFlag bool) *ClassLoader {
     return &ClassLoader{
 		cp: cp,
+		verboseFlag: verboseFlag,
 		classMap: make(map[string]*Class),
 	}
 }
@@ -37,7 +39,9 @@ func (self *ClassLoader) loadNonArrayClass(name string) *Class {
 	//解析class文件
 	class := self.defineClass(data)
 	link(class)
-	fmt.Printf("[Loaded %s from %s]\n", name, entry)
+	if self.verboseFlag {
+		fmt.Printf("[Loaded %s from %s]\n", name, entry)
+	}
 	return class
 }
 

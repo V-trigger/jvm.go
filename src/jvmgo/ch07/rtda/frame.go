@@ -37,6 +37,10 @@ func newFrame(thread *Thread, method *heap.Method) *Frame {
 	}
 }
 
+func (self *Frame) RevertNextPC() {
+	self.nextPC = self.thread.pc
+}
+
 //getter/setter 方法
 func (self *Frame) LocalVars() LocalVars{
     return self.localVars

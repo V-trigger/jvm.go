@@ -20,14 +20,14 @@ func main()  {
 func startJVM(cmd *Cmd) {
     cp := classpath.Parse(cmd.XjreOption, cmd.cpOption)
     //获取一个加载器
-    classLoader := heap.NewClassLoader(cp)
+    classLoader := heap.NewClassLoader(cp, cmd.verboseClassFlag)
     className := strings.Replace(cmd.class, ".", "/", -1)
     //加载主类
     mainClass := classLoader.LoadClass(className)
     //找到main方法
     mainMethod := mainClass.GetMainMethod()
     if mainMethod != nil {
-        interpret(mainMethod)
+        interpret(mainMethod, cmd.verboseInstFlag)
     } else {
         fmt.Printf("Main method not found in class %s\n", cmd.class)
     }
