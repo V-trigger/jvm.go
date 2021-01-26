@@ -12,7 +12,7 @@ import(
 type ClassLoader struct {
 	cp     *classpath.Classpath
 	verboseFlag    bool
-    classMap    map[string]*Class   
+    classMap    map[string]*Class
 }
 
 //创建ClassLoader实例
