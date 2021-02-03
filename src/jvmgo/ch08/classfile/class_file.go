@@ -136,11 +136,11 @@ func (self *ClassFile) readAndCheckVersion(reader *ClassReader) {
     //第六第七个字节是主版本号
     self.majorVersion = reader.readUint16()
     switch self.majorVersion {
-        case 45: return 
-        case 46, 47, 48, 49, 50, 51, 52: 
-            if self.minorVersion == 0 { 
-                return 
-            } 
+        case 45: return
+        case 46, 47, 48, 49, 50, 51, 52:
+            if self.minorVersion == 0 {
+                return
+            }
     }
     panic("java.lang.UnsupportedClassVersionError!")
 }
